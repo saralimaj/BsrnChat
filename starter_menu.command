@@ -30,7 +30,7 @@ case $auswahl in
 
   2)
     echo "[LAN] Setup für Netzwerktest..."
-    bash lan_setup_script.sh
+    bash lan_setup.command
     ;;
 
   3)
