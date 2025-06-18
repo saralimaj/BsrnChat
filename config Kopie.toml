@@ -1,0 +1,7 @@
+handle = "Sara"
+port = [5555, 5011]
+whoisport = 4000
+autoreply = "Ich bin gerade nicht da"
+imagepath = "~/chat_images"
+broadcast_ip = "255.255.255.255"
+debug = true
