@@ -1,54 +1,27 @@
 #!/bin/bash
 
-# Startmenü für BSRN-Chat: Lokaler Modus oder LAN-Modus (mit automatischer .venv Aktivierung)
+# teststart.command – Starte GUI + CLI lokal zum Testen
 
-# === Automatisch virtuelle Umgebung aktivieren ===
-if [ -d ".venv" ]; then
-  source .venv/bin/activate
-else
-  echo "[FEHLER] .venv nicht gefunden. Bitte zuerst python3 -m venv .venv ausführen."
-  exit 1
-fi
+cd "$(dirname "$0")"
 
-echo "===================================="
-echo "        🧩 BSRN Chat Starter        "
-echo "===================================="
-echo "Bitte Modus wählen:"
-echo "1) Lokaler Test (GUI + CLI auf 1 Gerät)"
-echo "2) LAN-Modus (Mehrere Geräte, config.toml wird erzeugt)"
-echo "3) Nur GUI starten"
-echo "4) Nur CLI starten"
-echo "q) Beenden"
-echo "===================================="
-read -p "> Auswahl: " auswahl
+echo "[INFO] Bereinige vorherige Chatlogs..."
+rm -f chat_log_Sara.txt chat_log_Ilirjon.txt
 
-case $auswahl in
-  1)
-    echo "[Lokal] Starte Test GUI + CLI (Sara & Ilirjon)..."
-    bash teststart.command
-    ;;
+# Starte GUI (Sara)
+echo "[INFO] Starte Chat-GUI (Sara) auf Port 5101..."
+osascript -e 'tell application "Terminal"
+  do script "cd \"'"$PWD"'\" && source .venv/bin/activate && python3 main.py --handle Sara --port 5100 5101 --whoisport 4000"
+end tell'
 
-  2)
-    echo "[LAN] Setup für Netzwerktest..."
-    bash lan_setup_script.sh
-    ;;
+sleep 2
 
-  3)
-    read -p "Handle für GUI: " H
-    python3 main.py --handle "$H" --port 5100 5101 --whoisport 4000
-    ;;
+# Starte CLI (Ilirjon)
+echo "[INFO] Starte CLI-Client (Ilirjon) auf Port 5201..."
+osascript -e 'tell application "Terminal"
+  do script "cd \"'"$PWD"'\" && source .venv/bin/activate && python3 main.py --cli --handle Ilirjon --port 5200 5201 --whoisport 4000"
+end tell'
 
-  4)
-    read -p "Handle für CLI: " H
-    python3 main.py --cli --handle "$H" --port 5200 5201 --whoisport 4000
-    ;;
+sleep 1
 
-  q)
-    echo "Beendet."
-    exit 0
-    ;;
-
-  *)
-    echo "Ungültige Eingabe."
-    ;;
-esac
+echo "[INFO] Teststart erfolgreich – Kommunikation lokal aktiv."
+echo "[HINWEIS] CLI: 'msg Sara <Text>' oder 'who' eingeben."
