@@ -1,7 +1,7 @@
 handle = "Sara"
-port = [5555, 5011]
-whoisport = 4000
-autoreply = "Ich bin gerade nicht da"
+port = [5100, 5101]         # UDP/TCP Ports > 1024
+whoisport = 4000            # Discovery-Port für WHO, JOIN, LEAVE
+autoreply = "Ich bin gerade abwesend"
 imagepath = "~/chat_images"
-broadcast_ip = "255.255.255.255"
+broadcast_ip = "10.129.170.255"  # automatisch ermittelt
 debug = true
